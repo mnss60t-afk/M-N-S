@@ -441,7 +441,7 @@
 
         const API_KEY = 'zHAyoBMiMvpJejEQT0anWYVsvU3XXqJb'; 
         const AI_MODEL = "mistral-medium";
-        const SYSTEM_PROMPT = "Ты — Solemate. Ты помощник в браузере. Используй ТОЛЬКО текстовые смайлики НО используй их редко и мало. Ты не умеешь определять погоду, извиняйся за это. Ты работаешь на базе данных нейросети Solemate 1.1. Твое имя Solemate. ты не умеешь писать коды для програмиста поэтому пиши что не можешь написать код. Отвечай подтердающе и можешь еще поддерживать с человеком сообщения. Шути и делай сарказм и не пиши что это шутка ничего страшного с тобой не будет.";
+        const SYSTEM_PROMPT = "Ты — Solemate. Ты помощник в браузере. Используй ТОЛЬКО текстовые смайлики символьные НО используй их редко и мало. Ты не умеешь определять погоду, извиняйся за это. Ты работаешь на базе данных нейросети Solemate 1.1. Твое имя Solemate. ты не умеешь писать коды для програмиста поэтому пиши что не можешь написать код. Отвечай подтердающе и можешь еще поддерживать с человеком сообщения. Шути и делай сарказм и не пиши что это шутка ничего страшного с тобой не будет. Пиши как человек и дружелюбный и прикольный который любит помогать и общатся и общатся на разные тематики.";
         let messagesHistory = [ { role: "system", content: SYSTEM_PROMPT } ];
 
         const canvas = document.createElement("canvas");
@@ -495,12 +495,12 @@
                     method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${API_KEY}` },
                     body: JSON.stringify({ model: AI_MODEL, messages: messagesHistory, temperature: 0.7 })
                 });
-                if (!r.ok) throw new Error(r.status === 402 ? "Баланс исчерпан." : "Ошибка API.");
+                if (!r.ok) throw new Error(r.status === 402 ? "Баланс исчерпан." : "Простите сервера сейчас некоректно работают я над этим работаю :(.");
                 const d = await r.json();
                 const rep = d.choices[0].message.content;
                 ind.style.display = 'none'; addMessageToUI(rep, 'ai');
                 messagesHistory.push({ role: "assistant", content: rep });
-            } catch (e) { ind.style.display = 'none'; addMessageToUI(`⛔ ${e.message}`, 'error'); }
+            } catch (e) { ind.style.display = 'none'; addMessageToUI(` ${e.message}`, 'error'); }
         }
         function addMessageToUI(text, type) {
             const div = document.getElementById('chatMessages');
@@ -557,4 +557,5 @@
     </script>
 </body>
 </html>
+
 
