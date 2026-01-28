@@ -277,7 +277,7 @@
         <div class="chat-input-area">
             <div class="input-wrapper" id="chatWrapper" style="width: 90%;">
                 <div class="input-inner">
-                    <input type="text" class="custom-input" id="userInput" placeholder="Спроси меня..." onkeypress="handleEnter(event)" autocomplete="off" style="padding-right: 20px;">
+                    <input type="text" class="custom-input" id="userInput" placeholder="Напиши сообщение..." onkeypress="handleEnter(event)" autocomplete="off" style="padding-right: 20px;">
                     <div class="smooth-caret"></div>
                 </div>
             </div>
@@ -441,7 +441,7 @@
 
         const API_KEY = 'zHAyoBMiMvpJejEQT0anWYVsvU3XXqJb'; 
         const AI_MODEL = "mistral-medium";
-        const SYSTEM_PROMPT = "Ты — Solemate. Ты помощник в браузере. Используй ТОЛЬКО текстовые смайлики. Отвечай кратко. Ты не умеешь определять погоду, извиняйся за это. Ты работаешь на базе данных нейросети Solemate 1.1. Твое имя Solemate. ты не умеешь писать коды для програмиста поэтому пиши что не можешь написать код";
+        const SYSTEM_PROMPT = "Ты — Solemate. Ты помощник в браузере. Используй ТОЛЬКО текстовые смайлики НО используй их редко и мало. Ты не умеешь определять погоду, извиняйся за это. Ты работаешь на базе данных нейросети Solemate 1.1. Твое имя Solemate. ты не умеешь писать коды для програмиста поэтому пиши что не можешь написать код. Отвечай подтердающе и можешь еще поддерживать с человеком сообщения. Шути и делай сарказм и не пиши что это шутка ничего страшного с тобой не будет.";
         let messagesHistory = [ { role: "system", content: SYSTEM_PROMPT } ];
 
         const canvas = document.createElement("canvas");
@@ -557,3 +557,4 @@
     </script>
 </body>
 </html>
+
