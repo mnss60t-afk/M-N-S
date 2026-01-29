@@ -101,7 +101,6 @@
         .modal-box { background: rgba(20, 20, 35, 0.9); border: 1px solid rgba(255,255,255,0.1); padding: 30px; border-radius: 20px; width: 350px; text-align: center; box-shadow: 0 0 50px rgba(168, 192, 255, 0.2); position: relative; }
         .modal-input { width: 100%; padding: 12px; margin: 15px 0; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; color: white; outline: none; }
         .modal-btn { padding: 10px 20px; background: #a8c0ff; border: none; border-radius: 10px; cursor: pointer; font-weight: bold; }
-        
         .map-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0f0f0f; z-index: 300; display: none; flex-direction: column; }
         .map-header { padding: 15px; background: #1a1a1a; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
         #map { flex: 1; width: 100%; height: 100%; filter: grayscale(20%) contrast(1.1); }
@@ -114,7 +113,6 @@
         .save-route-btn:hover { transform: scale(1.05); }
         .track-btn { background: #007bff; border: 1px solid #0056b3; color: #fff; padding: 8px 15px; border-radius: 5px; cursor: pointer; position: absolute; top: 80px; right: 20px; z-index: 999; font-size: 12px; }
         @keyframes flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-
         @media screen and (max-width: 768px) { h1 { font-size: 50px; } .chat-panel { width: 100%; border-left: none; } .main-content-wrapper.shifted { transform: none; opacity: 0; pointer-events: none; } .custom-input { padding-right: 145px; padding-left: 20px; } .map-hud-top { width: 90%; top: 60px; } }
     </style>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -227,7 +225,7 @@
         
         function initMap() {
             if(map) {
-                setTimeout(() => map.invalidateSize(), 100); // FIX: Исправляет серый экран
+                setTimeout(() => map.invalidateSize(), 100);
                 return;
             }
             map = L.map('map').setView([55.75, 37.61], 13);
@@ -252,17 +250,16 @@
                     if(userMarker) userMarker.setLatLng([lat, lng]);
                     
                     if(isNavigating && routingControl) {
-                        // Автообновление старта маршрута при движении
                         const waypoints = routingControl.getWaypoints();
                         if(waypoints.length > 0) {
                             waypoints[0].latLng = L.latLng(lat, lng);
                             routingControl.setWaypoints(waypoints);
                         }
-                        // Слежение и поворот карты
-                        map.setView([lat, lng], 18);
+                        // Поворот карты
                         if(pos.coords.heading) {
                             document.getElementById('map').style.transform = `perspective(600px) rotateX(30deg) rotateZ(-${pos.coords.heading}deg)`;
                         }
+                        map.setView([lat, lng], 18);
                     } else if (!isNavigating) {
                         map.setView([lat, lng]);
                     }
@@ -273,8 +270,8 @@
         function toggleTracking() {
             isNavigating = true;
             if(userMarker) {
-                map.setView(userMarker.getLatLng(), 18);
-                speakTextAndShow("Включено слежение");
+                map.setView(userMarker.getLatLng(), 17);
+                speakTextAndShow("Слежение включено");
             }
         }
 
@@ -298,11 +295,10 @@
                     
                     document.getElementById('mapInstruction').textContent = "Строю маршрут...";
                     
-                    // 2. Старт от текущей позиции
+                    // 2. Получаем текущие координаты пользователя
                     navigator.geolocation.getCurrentPosition(pos => {
                         startNavigation(pos.coords.latitude, pos.coords.longitude, destLat, destLng);
                     }, () => {
-                        // Fallback: Центр Москвы, если нет GPS
                         alert("GPS недоступен. Маршрут от Москвы.");
                         startNavigation(55.75, 37.61, destLat, destLng);
                     });
@@ -344,7 +340,6 @@
                 const minutes = arrivalTime.getMinutes().toString().padStart(2, '0');
                 document.getElementById('etaVal').textContent = `${hours}:${minutes}`;
                 
-                // Первая инструкция
                 if (routes[0].instructions.length > 0) {
                     updateInstruction(routes[0].instructions[0].text);
                 }
@@ -355,7 +350,7 @@
 
         let lastInstruction = "";
         function updateInstruction(text) {
-            let simpleText = text.replace(/Head/i, "Прямо").replace(/Turn right/i, "Направо").replace(/Turn left/i, "Налево").replace(/Arrive/i, "Вы прибыли");
+            let simpleText = text.replace(/Head/i, "Прямо").replace(/Turn right/i, "Направо").replace(/Turn left/i, "Налево").replace(/Arrive/i, "Приехали");
             document.getElementById('mapInstruction').textContent = simpleText;
             
             if (simpleText !== lastInstruction) {
